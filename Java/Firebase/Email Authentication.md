@@ -89,3 +89,31 @@ private void Sign_Up() {
     });
 }
 ```
+
+## Additional
+
+You can use this for email field validations
+
+```Java
+private boolean fieldsValidation() {
+    String regex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+    Pattern pattern = Pattern.compile(regex);
+    Matcher matcher = pattern.matcher(emailId);
+    
+    // checks if email field is empty
+    if (TextUtils.isEmpty(emailId)) {
+        email.setError("Email Required");
+        email.requestFocus();
+        return false;
+    }
+
+    // checks if valid email is entered
+    if (!matcher.matches()) {
+        email.setError("Please enter valid email");
+        email.requestFocus();
+        return false;
+    }
+
+    return true;
+}
+```
