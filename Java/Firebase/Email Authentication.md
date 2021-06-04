@@ -1,13 +1,15 @@
 # Email-Password Authentication
 
-FirebaseAuth mAuth = FirebaseAuth.getInstance();
+Initialization  
+
+`FirebaseAuth mAuth = FirebaseAuth.getInstance();`
 
 ## Sign Up
 
 Get the user input through input fields in String emailId, and password.  
 You can either create a separate function Sign_Up or directly run this code inside Onclick listener. 
 
-Firebase method createUserWithEmailAndPassword(email, password) is used to create new user.   
+Firebase method `createUserWithEmailAndPassword(email, password)` is used to create new user.   
 We check the result of SignUp process through addOnCompleteListener, it returns task.  
 if task is successfull then new user is created  
 if it is not successfull then we can check for errors, if exception message contains string "The email address is already in use by another account" then that account already exists.
@@ -29,7 +31,7 @@ private void Sign_Up(String emailId, String password) {
 Get the user input through input fields in String emailId, and password.  
 You can either create a separate function Sign_In or directly run this code inside Onclick listener.  
 
-Firebase method signInWithEmailAndPassword(email, password) is used to sign in user.  
+Firebase method `signInWithEmailAndPassword(email, password)` is used to sign in user.  
 We check the result of SignIn process through addOnCompleteListener, it returns task.  
 if task is successfull then user is logged in   
 if it is not successfull then we can check for errors, if exception message contains string "The password is invalid" then password was wrong. If it contains string "There is no user record corresponding to this identifier" then that email is not registered before.  
@@ -57,7 +59,7 @@ private void Sign_In(String emailId, String password) {
 
 You can set up email verification while creating new account.  
 You can't use this function solely like this though.  
-Firebase method sendEmailVerification() is used to send verification mail.  
+Firebase method `sendEmailVerification()` is used to send verification mail.  
 But as you can see we don't have option to pass email or password that's why you can't use this function on its own.  
 It sends mail to the user whose instance is created at that moment. mAuth.getCurrentUser gets the current logged in user or recently created user.  
 While creating new account mAuth.getCurrentUser will give null if called outside SignUp.
@@ -93,7 +95,7 @@ private void Sign_Up(String emailId, String password) {
 ## Forgot/Reset Passwword
 
 You can send reset password Link if user forgets his password or if he wants to change it.  
-Firebase method sendPasswordResetEmail(emailId) is used to send password Reset link.  
+Firebase method `sendPasswordResetEmail(emailId)` is used to send password Reset link.  
 If task is successful then mail is sent else we can check for errors.  
 If error message contains string "There is no user record corresponding to this identifier" then that account is not created.
 
