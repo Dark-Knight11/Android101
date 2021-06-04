@@ -1,13 +1,13 @@
 # Email-Password Authentication
 
 ## Index 
-[First Step](#initialization)
+[First Step](#initialization)  
 [SignUp](#sign-up)   
 [SignIn](#sign-in)  
 [Email Verifiaction](#email-verification)  
-[Forgot/Reset Passwword](#forgot-passwword)  
-[Additional](#additional)
-
+[Forgot/Reset Passwword](#forgotreset-password)  
+[Additional](#additional)  
+[Common Mistakes](#common-mistakes)
 
 ## Initialization  
 
@@ -101,7 +101,7 @@ private void Sign_Up(String emailId, String password) {
 }
 ```
 
-## Forgot/Reset Passwword
+## Forgot/Reset Password
 
 You can send reset password Link if user forgets his password or if he wants to change it.  
 Firebase method `sendPasswordResetEmail(emailId)` is used to send password Reset link.  
@@ -149,4 +149,29 @@ private boolean fieldsValidation(String emailId) {
 
     return true;
 }
+```
+
+## Common Mistakes
+
+While setting up any of the above procedures, they are mostly set under on click listeners  
+If you are getting user inuput through edit text fields then make sure to get the string value **inside** on click listener  
+if you define your string outside listener then it would be null inside listener
+
+For example:
+```Java
+/* ------------------------------------ WRONG APPROACH ------------------------------------ */
+String emailId = email.getText().toString().trim();
+String password = pass.getText().toString().trim();
+// logs in the user
+login.setOnClickListener(v -> Sign_In(emailId, password));
+
+
+/* ------------------------------------ RIGHT APPROACH ------------------------------------ */
+// logs in the user
+login.setOnClickListener(v -> {
+    String emailId = email.getText().toString().trim();
+    String password = pass.getText().toString().trim();
+    
+    Sign_In(emailId, password);
+});
 ```
