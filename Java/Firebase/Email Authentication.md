@@ -1,13 +1,14 @@
 # Email-Password Authentication
 
 ## Index 
-[First Step](#initialization)  
-[SignUp](#sign-up)   
-[SignIn](#sign-in)  
-[Email Verifiaction](#email-verification)  
-[Forgot/Reset Passwword](#forgotreset-password)  
-[Additional](#additional)  
-[Common Mistakes](#common-mistakes)
+* [First Step](#initialization)  
+* [Sign Up](#sign-up)   
+* [Sign In](#sign-in)  
+* [Sign Out](#sign-out)
+* [Email Verification](#email-verification)  
+* [Forgot/Reset Password](#forgotreset-password)  
+* [Additional](#additional)  
+* [Common Mistakes](#common-mistakes)
 
 ## Initialization  
 
@@ -64,6 +65,16 @@ private void Sign_In(String emailId, String password) {
 }
 ```
 
+## Sign Out
+
+```Java
+logout.setOnClickListener(v -> {
+    FirebaseAuth.getInstance().signOut();
+    startActivity(new Intent(getContext(), SignIn.class));
+    finish();
+});
+```      
+
 ## Email Verification
 
 You can set up email verification while creating new account.  
@@ -100,6 +111,9 @@ private void Sign_Up(String emailId, String password) {
     });
 }
 ```
+
+If user has already verifed the mail then we can check that through 
+`mAuth.getCurrentUser().isEmailVerified()`
 
 ## Forgot/Reset Password
 
@@ -148,6 +162,24 @@ private boolean fieldsValidation(String emailId) {
     }
 
     return true;
+}
+```
+
+You can check wheather use has already logged in  
+if he is already logged in then you can directly display home screen instead of displaying Sign In screen  
+This code is generally implement inside Sign In activity so if user == null then Sign In screen is displayed.  
+Or it is implement inside Splash screen.
+```Java
+user = mAuth.getCurrentUser();
+// CHECKS IF USER IS ALREADY LOGGED IN
+if (user != null) {
+    // user is logged in
+    startActivity(new Intent(SignIn.this, MainActivity.class));
+    finish();
+
+} else {
+    // User is not logged in
+    // display Log in Screen
 }
 ```
 
