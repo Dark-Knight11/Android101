@@ -12,7 +12,7 @@ We check the result of SignUp process through addOnCompleteListener, it returns 
 if task is successfull then new user is created  
 if it is not successfull then we can check for errors, if exception message contains string "The email address is already in use by another account" then that account already exists.
 ```Java
-private void Sign_Up() {
+private void Sign_Up(String emailId, String password) {
     mAuth.createUserWithEmailAndPassword(emailId, password).addOnCompleteListener(this, task -> {
         if (task.isSuccessful())
             Toast.makeText(SignUp.this, "Account Created Successfully", Toast.LENGTH_SHORT).show();
@@ -36,7 +36,7 @@ if it is not successfull then we can check for errors, if exception message cont
 
 
 ```Java
-private void Sign_In() {
+private void Sign_In(String emailId, String password) {
     mAuth.signInWithEmailAndPassword(emailId, password).addOnCompleteListener(this, task -> {
         if (task.isSuccessful()) {
             Toast.makeText(SignIn.this, "You are logged in", Toast.LENGTH_SHORT).show();
@@ -77,7 +77,7 @@ private void sendEmail() {
 
 Therefore this function should be called inside SignUp function 
 ```Java
-private void Sign_Up() {
+private void Sign_Up(String emailId, String password) {
     mAuth.createUserWithEmailAndPassword(emailId, password).addOnCompleteListener(this, task -> {
         if (task.isSuccessful())
             sendEmail();
@@ -90,12 +90,34 @@ private void Sign_Up() {
 }
 ```
 
+## Forgot/Reset Passwword
+
+You can send reset password Link if user forgets his password or if he wants to change it.  
+Firebase method sendPasswordResetEmail(emailId) is used to send password Reset link.  
+If task is successful then mail is sent else we can check for errors.  
+If error message contains string "There is no user record corresponding to this identifier" then that account is not created.
+
+```Java
+private void resetPassword(String emailId) {
+    mAuth.sendPasswordResetEmail(emailId).addOnCompleteListener(task -> {
+        if (task.isSuccessful())
+            Toast.makeText(ForgotPassword.this, "Please check your Email", Toast.LENGTH_SHORT).show();
+        else {
+            Log.w("resetPassword", "sendPasswordResetEmail:failure", task.getException());
+            if(task.getException().toString().contains("There is no user record corresponding to this identifier"))
+                Toast.makeText(ForgotPassword.this, "User does not exist. Please create new account", Toast.LENGTH_SHORT).show();
+        }
+    });
+}
+```
+
+
 ## Additional
 
 You can use this for email field validations
 
 ```Java
-private boolean fieldsValidation() {
+private boolean fieldsValidation(String emailId) {
     String regex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
     Pattern pattern = Pattern.compile(regex);
     Matcher matcher = pattern.matcher(emailId);
