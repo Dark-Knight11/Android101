@@ -7,6 +7,7 @@
 * [Sign Out](#sign-out)
 * [Email Verification](#email-verification)  
 * [Forgot/Reset Password](#forgotreset-password)  
+* [Change Password](#change-password)
 * [Additional](#additional)  
 * [Common Mistakes](#common-mistakes)
 
@@ -136,6 +137,22 @@ private void resetPassword(String emailId) {
 }
 ```
 
+## Change Password
+
+```Java
+
+private changePass(String newPassword) {
+    FirebaseUser user = mAuth.getCurrentUser();
+
+    user.updatePassword(newPassword)
+        .addOnCompleteListener(task -> {
+            if (task.isSuccessful())
+                Toast.makeText(Profile.this, "Password updated", Toast.LENGTH_SHORT).show();
+            else 
+                Log.w("changePass", "updatePassword:failure", task.getException())
+        });
+}
+```
 
 ## Additional
 
