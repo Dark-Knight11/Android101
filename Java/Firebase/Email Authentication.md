@@ -1,9 +1,34 @@
 # Email-Password Authentication
 
+## Sign Up
+
+Get the user input through input fields in String emailId, and password.  
+You can either create a separate function Sign_Up or directly run this code inside Onclick listener.   
+Firebase method createUserWithEmailAndPassword(email, password) is used to create new user.  
+where FirebaseAuth mAuth = FirebaseAuth.getInstance();   
+We check the result of SignUp process through addOnCompleteListener, it returns task.  
+if task is successfull then new user is created  
+if it is not successfull then we can check for errors, if exception message contains string "The email address is already in use by another account" then that account already exists.
+```Java
+private void Sign_Up() {
+    mAuth.createUserWithEmailAndPassword(emailId, password).addOnCompleteListener(this, task -> {
+        if (task.isSuccessful())
+            Toast.makeText(SignUp.this, "Account Created Successfully", Toast.LENGTH_SHORT).show();
+        else {
+            Log.w("TAG", "createUserWithEmail:failure", task.getException());
+            if(task.getException().toString().contains("The email address is already in use by another account"))
+                Toast.makeText(SignUp.this, "User already exists please log in", Toast.LENGTH_SHORT).show();
+        }
+    });
+}
+```    
+
+
+
 ## Sign In
 
 Get the user input through input fields in String emailId, and password.  
-You can either create a separate function Sign_In or directly run this code inside set Onclick listener.  
+You can either create a separate function Sign_In or directly run this code inside Onclick listener.  
 
 Firebase method signInWithEmailAndPassword(email, password) is used to sign in user.  
 where FirebaseAuth mAuth = FirebaseAuth.getInstance();  
