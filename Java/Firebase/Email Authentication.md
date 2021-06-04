@@ -1,6 +1,15 @@
 # Email-Password Authentication
 
-Initialization  
+## Index 
+[First Step](#initialization)
+[SignUp](#sign-up)   
+[SignIn](#sign-in)  
+[Email Verifiaction](#email-verification)  
+[Forgot/Reset Passwword](#forgot-passwword)  
+[Additional](#additional)
+
+
+## Initialization  
 
 `FirebaseAuth mAuth = FirebaseAuth.getInstance();`
 
