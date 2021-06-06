@@ -3,7 +3,8 @@
 ## Index 
 * [Dependencies](#dependencies) 
 * [Generating FireStore instance](#initialization)
-* [Write Data](#write-data)  
+* [Write Data](#write-data) 
+* [Read Data](#read-data) 
 
 
 ## Dependencies
@@ -26,9 +27,9 @@ FirebaseFirestore db = FirebaseFirestore.getInstance();
 ```
 
 ## Write Data
-Add and Set Method
-Add method is used when you don't want to define specific Id for document. 
-Add method generates some random unique Id whenever you add data
+Add and Set Method  
+Add method is used when you don't want to define specific Id for document.   
+Add method generates some random unique Id whenever you add data  
 Set method is used when you want to store data under specific unique Id  
 In set method you have to give the value of unique Id  
 
@@ -48,7 +49,7 @@ db.collection("users")
 ```
 Here I'm using users uid generated during Authentication as unique Id for document
 ```Java
-private writeDB() {
+private void writeDB() {
     Map<String, Object> userData = new HashMap<>();
     userData.put("phone", phone);
     userData.put("Name", Name);
@@ -60,5 +61,24 @@ private writeDB() {
         .addOnSuccessListener(v -> Log.d("writeData", "DocumentSnapshot added with ID: " + (mAuth.getCurrentUser()).getUid()))
         .addOnFailureListener(e -> Log.w("writeData", "Error adding document", e));
 }
-```                
+``` 
+
+## Read Data
+```Java
+private void readData() {
+    db.collection("Users")                              // collection Name
+        .document((mAuth.getCurrentUser()).getUid())    // document ID
+        .get()
+        .addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Map<String, Object> document = task.getResult().getData();
+                Log.d("readData", task.getResult().getId()+ " => " + document);
+                String name = document.get("Name").toString();
+                String phone = document.get("phone").toString();
+                String email = document.get("Email").toString();
+            } else
+                Log.w("readData", "Error getting documents.", task.getException());
+        });
+}
+```
               
