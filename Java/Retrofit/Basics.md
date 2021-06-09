@@ -11,7 +11,7 @@ implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
 ## Initialisation
 
-Inside manifest
+Inside manifest enable internet permission
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
