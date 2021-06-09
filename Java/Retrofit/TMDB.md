@@ -1,7 +1,7 @@
 ## TMDB API Example
 
 For using [TMDB API](https://developers.themoviedb.org/3) you need to create an account and get API key for authentication.  
-First you need to implement dependencies inside gradle file as mentioned in [Basics file](../Basics.md)  
+First you need to implement dependencies inside gradle file as mentioned in [Basics file](/Java/Retrofit/Basics.md)  
 We are going to fetch images as well so I'll be using [Glide](https://github.com/bumptech/glide) to display image in Image View.  
 Dependency for Glide:
 
