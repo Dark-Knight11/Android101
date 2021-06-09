@@ -38,16 +38,16 @@ APIclass apiclass = retrofit.create(APIclass.class);
 
 ```Java
 apiClass.getData().enqueue(new Callback<ResponseClass>() {
-        @Override
-        public void onResponse(Call<ResponseClass> call, Response<ResponseClass> response) {
-            res = response.body();
-        }
+    @Override
+    public void onResponse(Call<ResponseClass> call, Response<ResponseClass> response) {
+        res = response.body();
+    }
 
-        @Override
-        public void onFailure(@NonNull Call<ResponseClass> call, @NonNull Throwable t) {
-            Log.i("onFailure: ", t.getMessage());
-        }
-    });
+    @Override
+    public void onFailure(@NonNull Call<ResponseClass> call, @NonNull Throwable t) {
+        Log.i("onFailure: ", t.getMessage());
+    }
+});
 ```
 
 ## Example
