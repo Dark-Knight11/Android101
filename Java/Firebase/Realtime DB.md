@@ -1,13 +1,16 @@
 # Firebase Realtime Database
 
 ## Index
-* [Dependencies](#dependencies)
-* [Write Data](#writing-data-to-realtime-db)
-* [Read Data](#reading-data-from-realtime-db)
-* [Update Data](#updating-data-on-realtime-db)
+
+-   [Dependencies](#dependencies)
+-   [Write Data](#writing-data-to-realtime-db)
+-   [Read Data](#reading-data-from-realtime-db)
+-   [Update Data](#updating-data-on-realtime-db)
 
 ## Dependencies
+
 Add dependencies in app-level build.gradle (app/build.gradle)
+
 ```Gradle
 dependencies {
     // Import the BoM for the Firebase platform
@@ -19,9 +22,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-database'
 }
 ```
+
 ## Writing data to Realtime DB
 
 Sample Example
+
 ```Java
 // Write a message to the database
 FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -29,27 +34,31 @@ DatabaseReference myRef = database.getReference("message");
 
 myRef.setValue("Hello, World!");
 ```
-IRL usage   
-Create a separate User class for setting User details
+
+IRL usage  
+Create a separate Model User class for setting User details
 
 ```Java
 public class User {
     // declare data that you want to upload
     public String Email, Name, phone;
 
+    // Constructor for getting data
     public User() { }
 
-    // Constructor
+    // Constructor for setting data
     public User(String Email, String Name) {
         this.Email = Email;
         this.Name = Name;
     }
 }
 ```
-Create this function from where you want to upload data 
+
+Create this function from where you want to upload data
+
 ```Java
 private uploadData(String emailId, String Name) {
-    // create new object and pass the data that you want to upload 
+    // create new object and pass the data that you want to upload
     User user = new User(emailId, Name);
     FirebaseDatabase.getInstance()
         .getReference("Parent")      // (String value) parent will be created if it does not exist
@@ -63,7 +72,9 @@ private uploadData(String emailId, String Name) {
         });
 }
 ```
+
 ## Reading Data from Realtime DB
+
 We'll require same User class as defined above for fetching data.
 Declare the variables of whose data you wish to fetch in that User class.
 
@@ -90,8 +101,10 @@ public void readDB() {
 ```
 
 ## Updating Data on Realtime DB
+
 For updating data we just use a hashmap
 `childUpdates.put("key", value);`
+
 ```Java
 private void updateDB() {
     Map<String, Object> childUpdates = new HashMap<>();
@@ -101,4 +114,4 @@ private void updateDB() {
     mDatabase.child("parent").child("child").updateChildren(childUpdates);
     Toast.makeText(Profile.this, "Data was successfull updated", Toast.LENGTH_SHORT).show();
 }
-```    
+```

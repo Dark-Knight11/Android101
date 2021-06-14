@@ -1,29 +1,33 @@
 # Email-Password Authentication
 
-## Index 
-* [First Step](#initialization)  
-* [Sign Up](#sign-up)   
-* [Sign In](#sign-in)  
-* [Sign Out](#sign-out)
-* [Email Verification](#email-verification)  
-* [Forgot/Reset Password](#forgotreset-password)  
-* [Change Password](#change-password)
-* [Additional](#additional)  
-* [Common Mistakes](#common-mistakes)
+## Index
 
-## Initialization  
+-   [First Step](#initialization)
+-   [Sign Up](#sign-up)
+-   [Sign In](#sign-in)
+-   [Sign Out](#sign-out)
+-   [Email Verification](#email-verification)
+-   [Forgot/Reset Password](#forgotreset-password)
+-   [Change Password](#change-password)
+-   [Additional](#additional)
+-   [Common Mistakes](#common-mistakes)
 
-`FirebaseAuth mAuth = FirebaseAuth.getInstance();`
+## Initialization
+
+```Java
+FirebaseAuth mAuth = FirebaseAuth.getInstance();
+```
 
 ## Sign Up
 
 Get the user input through input fields in String emailId, and password.  
-You can either create a separate function Sign_Up or directly run this code inside Onclick listener. 
+You can either create a separate function Sign_Up or directly run this code inside Onclick listener.
 
-Firebase method `createUserWithEmailAndPassword(email, password)` is used to create new user.   
+Firebase method `createUserWithEmailAndPassword(email, password)` is used to create new user.  
 We check the result of SignUp process through addOnCompleteListener, it returns task.  
 if task is successfull then new user is created  
 if it is not successfull then we can check for errors, if exception message contains string "The email address is already in use by another account" then that account already exists.
+
 ```Java
 private void Sign_Up(String emailId, String password) {
     mAuth.createUserWithEmailAndPassword(emailId, password).addOnCompleteListener(this, task -> {
@@ -36,17 +40,17 @@ private void Sign_Up(String emailId, String password) {
         }
     });
 }
-```    
+```
+
 ## Sign In
 
 Get the user input through input fields in String emailId, and password.  
-You can either create a separate function Sign_In or directly run this code inside Onclick listener.  
+You can either create a separate function Sign_In or directly run this code inside Onclick listener.
 
 Firebase method `signInWithEmailAndPassword(email, password)` is used to sign in user.  
 We check the result of SignIn process through addOnCompleteListener, it returns task.  
-if task is successfull then user is logged in   
-if it is not successfull then we can check for errors, if exception message contains string "The password is invalid" then password was wrong. If it contains string "There is no user record corresponding to this identifier" then that email is not registered before.  
-
+if task is successfull then user is logged in  
+if it is not successfull then we can check for errors, if exception message contains string "The password is invalid" then password was wrong. If it contains string "There is no user record corresponding to this identifier" then that email is not registered before.
 
 ```Java
 private void Sign_In(String emailId, String password) {
@@ -74,7 +78,7 @@ logout.setOnClickListener(v -> {
     startActivity(new Intent(getContext(), SignIn.class));
     finish();
 });
-```      
+```
 
 ## Email Verification
 
@@ -98,7 +102,8 @@ private void sendEmail() {
 }
 ```
 
-Therefore this function should be called inside SignUp function 
+Therefore this function should be called inside SignUp function
+
 ```Java
 private void Sign_Up(String emailId, String password) {
     mAuth.createUserWithEmailAndPassword(emailId, password).addOnCompleteListener(this, task -> {
@@ -113,7 +118,7 @@ private void Sign_Up(String emailId, String password) {
 }
 ```
 
-If user has already verifed the mail then we can check that through 
+If user has already verifed the mail then we can check that through
 `mAuth.getCurrentUser().isEmailVerified()`
 
 ## Forgot/Reset Password
@@ -140,7 +145,6 @@ private void resetPassword(String emailId) {
 ## Change Password
 
 ```Java
-
 private changePass(String newPassword) {
     FirebaseUser user = mAuth.getCurrentUser();
 
@@ -148,7 +152,7 @@ private changePass(String newPassword) {
         .addOnCompleteListener(task -> {
             if (task.isSuccessful())
                 Toast.makeText(Profile.this, "Password updated", Toast.LENGTH_SHORT).show();
-            else 
+            else
                 Log.w("changePass", "updatePassword:failure", task.getException())
         });
 }
@@ -163,7 +167,7 @@ private boolean fieldsValidation(String emailId) {
     String regex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
     Pattern pattern = Pattern.compile(regex);
     Matcher matcher = pattern.matcher(emailId);
-    
+
     // checks if email field is empty
     if (TextUtils.isEmpty(emailId)) {
         email.setError("Email Required");
@@ -177,7 +181,6 @@ private boolean fieldsValidation(String emailId) {
         email.requestFocus();
         return false;
     }
-
     return true;
 }
 ```
@@ -186,18 +189,18 @@ You can check wheather use has already logged in
 if he is already logged in then you can directly display home screen instead of displaying Sign In screen  
 This code is generally implement inside Sign In activity so if user == null then Sign In screen is displayed.  
 Or it is implement inside Splash screen.
+
 ```Java
-user = mAuth.getCurrentUser();
+user = FirebaseAuth.getInstance().getCurrentUser();
 // CHECKS IF USER IS ALREADY LOGGED IN
 if (user != null) {
     // user is logged in
     startActivity(new Intent(SignIn.this, MainActivity.class));
     finish();
-
-} else {
-    // User is not logged in
-    // display Log in Screen
 }
+setContentView(R.layout.sign_in);
+
+...
 ```
 
 ## Common Mistakes
@@ -207,6 +210,7 @@ If you are getting user inuput through edit text fields then make sure to get th
 if you define your string outside listener then it would be null inside listener
 
 For example:
+
 ```Java
 /* ------------------------------------ WRONG APPROACH ------------------------------------ */
 String emailId = email.getText().toString().trim();
@@ -220,7 +224,7 @@ login.setOnClickListener(v -> Sign_In(emailId, password));
 login.setOnClickListener(v -> {
     String emailId = email.getText().toString().trim();
     String password = pass.getText().toString().trim();
-    
+
     Sign_In(emailId, password);
 });
 ```

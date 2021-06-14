@@ -9,7 +9,7 @@ implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 ```
 
-## Initialisation
+## Internet permission
 
 Inside manifest enable internet permission
 
@@ -26,18 +26,25 @@ Inside manifest enable internet permission
     ...
 ```
 
+## Usage
+
+For fetching data from api we need to create a response class and a java interface.  
+In reponse class we will define the data that we need to fetch.  
+In interface we will define the URL, parameters, headers, etc that we need to make an api call.
+
+Here `APIservice` is the interface  
+Inside activity or fragment
+
 ```Java
+// retrofit instance
 Retrofit retrofit = new Retrofit.Builder()
     .baseUrl("base-url-of-API")
     .addConverterFactory(GsonConverterFactory.create())
     .build();
-APIclass apiclass = retrofit.create(APIclass.class);
-```
+// connecting service to instance
+APIservice apiService = retrofit.create(APIservice.class);
 
-## Usage
-
-```Java
-apiClass.getData().enqueue(new Callback<ResponseClass>() {
+apiService.getData().enqueue(new Callback<ResponseClass>() {
     @Override
     public void onResponse(Call<ResponseClass> call, Response<ResponseClass> response) {
         res = response.body();

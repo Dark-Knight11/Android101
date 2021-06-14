@@ -2,7 +2,7 @@
 
 There is no need of any authentication to use this [API](https://hp-api.herokuapp.com/).
 
-Here also we are going to display image so we'll implement glide to do that.
+Here we are going to display image so we'll implement glide to do that.
 
 ```Java
 implementation "com.github.bumptech.glide:glide:4.12.0"
@@ -88,7 +88,8 @@ Create a Java Interface `PotterApi.java`
 ```Java
 public interface PotterApi {
     @GET("characters")
-    Call<List<Characters>> getCharacters(); // List because response is in List form
+    Call<List<Characters>> getCharacters();
+    // List because response is in List form
 }
 ```
 
